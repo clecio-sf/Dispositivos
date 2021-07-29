@@ -39,3 +39,19 @@ export const Likes = styled.Text`
     font-size: 14;
     color: #59594a;
 `;
+
+export const EntradaNomeProduto = styled.TextInput`
+    height: 40px;
+    width: 100%;
+    background-color: #fff;
+    border-color: #c7c7c7;
+    border-width: 1;
+    border-radius: 8px;
+`;
+
+export const CentralizadoNaMesmaLinha = styled.View`
+    flexDirection: row;
+    justify-content: center;
+    align-items: center;
+`;
+

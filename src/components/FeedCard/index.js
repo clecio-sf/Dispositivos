@@ -39,7 +39,7 @@ export default class FeedCard extends React.Component {
           </CardContent>
           <CardContent>
             <PrecoProduto>{'R$' + feed.product.price}</PrecoProduto>
-            <Icon name="heart" size={18} >
+            <Icon name="heart" size={14} >
               <Likes>{feed.likes}</Likes>
             </Icon>
           </CardContent>
