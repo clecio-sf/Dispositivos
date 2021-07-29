@@ -1,7 +1,10 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Card, CardImage, CardContent } from 'react-native-cards'
-import { Avatar, NomeEmpresa, NomeProduto, DescricaoProduto, PrecoProduto, Likes } from '../../assets/style';
+import {
+  Avatar, NomeEmpresa, NomeProduto,
+  DescricaoProduto, PrecoProduto, Likes, EsquerdaDaMesmaLinha
+} from '../../assets/style';
 import avatar from '../../assets/imgs/avatar.jpeg';
 import produto from '../../assets/imgs/produto.jpeg';
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -28,8 +31,10 @@ export default class FeedCard extends React.Component {
         <Card>
           <CardImage source={produto} />
           <CardContent>
-            <Avatar source={avatar} />
-            <NomeEmpresa>{feed.company.name}</NomeEmpresa>
+            <EsquerdaDaMesmaLinha>
+              <Avatar source={avatar} />
+              <NomeEmpresa>{feed.company.name}</NomeEmpresa>
+            </EsquerdaDaMesmaLinha>
           </CardContent>
           <CardContent>
             <NomeProduto>{feed.product.name}</NomeProduto>
@@ -38,10 +43,12 @@ export default class FeedCard extends React.Component {
             <DescricaoProduto>{feed.product.description}</DescricaoProduto>
           </CardContent>
           <CardContent>
-            <PrecoProduto>{'R$' + feed.product.price}</PrecoProduto>
-            <Icon name="heart" size={14} >
-              <Likes>{feed.likes}</Likes>
-            </Icon>
+            <EsquerdaDaMesmaLinha>
+              <PrecoProduto>{'R$' + feed.product.price}   </PrecoProduto>
+              <Icon name="heart" size={14}>
+                <Likes>{feed.likes}</Likes>
+              </Icon>
+            </EsquerdaDaMesmaLinha>
           </CardContent>
         </Card>
       </TouchableOpacity >)

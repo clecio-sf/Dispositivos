@@ -54,4 +54,26 @@ export const CentralizadoNaMesmaLinha = styled.View`
     justify-content: center;
     align-items: center;
 `;
+export const EsquerdaDaMesmaLinha = styled.View`
+    flexDirection: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+`;
+export const ContenedorMenu = styled.View`
+    flex: 1;
+    font-size: 18;
+    background-color: #fff;
+`;
 
+export const DivisorMenu = styled.View`
+    marginVertical: 5;
+    marginHorizontal: 5;
+    border-bottom-width: 1;
+    border-color: #050505;
+
+`;
+
+export const Espacador = styled.View`
+    flexDirection: row;
+    padding: 19px;
+`;
