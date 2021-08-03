@@ -1,12 +1,14 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
-import { Card, CardImage, CardContent } from 'react-native-cards'
+import { StyleSheet, View } from "react-native";
+import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
 import {
-  Avatar, NomeEmpresa, NomeProduto,
-  DescricaoProduto, PrecoProduto, Likes, EsquerdaDaMesmaLinha
+  Avatar, NomeEmpresa, styles,
+  DescricaoProduto, PrecoProduto, Likes, EsquerdaDaMesmaLinha, Centro, Titulo, Alinhar
 } from '../../assets/style';
+import { Text } from 'react-native'
 import avatar from '../../assets/imgs/avatar.jpeg';
-import produto from '../../assets/imgs/produto.jpeg';
+import produto from '../../assets/imgs/stro.jpg';
 import Icon from 'react-native-vector-icons/AntDesign'
 
 
@@ -30,25 +32,24 @@ export default class FeedCard extends React.Component {
       }>
         <Card>
           <CardImage source={produto} />
+          <CardAction
+            separator={true} >
+          </CardAction>
+          <CardTitle
+            subtitle={feed.category.name}
+          />
+          <Text style={styles.NomeProduto}>
+            {feed.product.name}
+          </Text>
           <CardContent>
-            <EsquerdaDaMesmaLinha>
-              <Avatar source={avatar} />
-              <NomeEmpresa>{feed.company.name}</NomeEmpresa>
-            </EsquerdaDaMesmaLinha>
-          </CardContent>
-          <CardContent>
-            <NomeProduto>{feed.product.name}</NomeProduto>
-          </CardContent>
-          <CardContent>
-            <DescricaoProduto>{feed.product.description}</DescricaoProduto>
-          </CardContent>
-          <CardContent>
-            <EsquerdaDaMesmaLinha>
-              <PrecoProduto>{'R$' + feed.product.price}   </PrecoProduto>
-              <Icon name="heart" size={14}>
+            <CardAction
+              separator={true} >
+            </CardAction>
+            <Alinhar>
+              <Icon name="hearto" size={18} color={'#ffa500'}>
                 <Likes>{feed.likes}</Likes>
               </Icon>
-            </EsquerdaDaMesmaLinha>
+            </Alinhar>
           </CardContent>
         </Card>
       </TouchableOpacity >)

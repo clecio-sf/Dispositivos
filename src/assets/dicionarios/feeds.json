@@ -3,16 +3,15 @@
         {
             "_id": 1,
             "datetime": "2019-11-01T12:00-0500",
-            "company": {
-                "_id": 1, 
-                "name": "Chilli Beans",
+            "category": {
+                "_id": 1,
+                "name": "Aves",
                 "avatar": "chillibean.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Oculos Esportivo",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 100.0,
+                "name": "Strogonoff",
+                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 "url": "https://loja.chillibeans.com.br/",
                 "blobs": [
                     {
@@ -33,16 +32,15 @@
         {
             "_id": 2,
             "datetime": "2019-10-01T12:00-0500",
-            "company": {
-                "_id": 2, 
-                "name": "Ray-Ban",
+            "category": {
+                "_id": 2,
+                "name": "Aves",
                 "avatar": "rayban.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Oculos Esportivo",
+                "name": "Risoto de Frango",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 110.0,
                 "url": "https://loja.chillibeans.com.br/",
                 "blobs": [
                     {
@@ -60,16 +58,15 @@
         {
             "_id": 3,
             "datetime": "2019-09-01T12:00-0500",
-            "company": {
-                "_id": 3, 
-                "name": "H. Stern",
+            "category": {
+                "_id": 3,
+                "name": "Massas",
                 "avatar": "hstern.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Anel",
+                "name": "Panqueca",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 800.0,
                 "url": "https://www.hstern.com.br/",
                 "blobs": [
                     {
@@ -86,16 +83,15 @@
         {
             "_id": 4,
             "datetime": "2019-08-01T12:00-0500",
-            "company": {
-                "_id": 3, 
-                "name": "H. Stern",
+            "category": {
+                "_id": 3,
+                "name": "Massas",
                 "avatar": "hstern.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Conjunto Brinco e Anel",
+                "name": "Lasanha",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 2500.0,
                 "url": "https://www.hstern.com.br/",
                 "blobs": [
                     {
@@ -108,16 +104,15 @@
         {
             "_id": 5,
             "datetime": "2019-07-01T12:00-0500",
-            "company": {
-                "_id": 4, 
-                "name": "Boticário",
+            "category": {
+                "_id": 4,
+                "name": "Bolos e Doces",
                 "avatar": "boticario.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Maquiagem",
+                "name": "Bolo de Milho",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 260.0,
                 "url": "https://www.boticario.com.br/",
                 "blobs": [
                     {
@@ -141,16 +136,15 @@
         {
             "_id": 6,
             "datetime": "2019-06-01T12:00-0500",
-            "company": {
-                "_id": 5, 
-                "name": "Arezzo",
+            "category": {
+                "_id": 5,
+                "name": "Carnes",
                 "avatar": "arezzo.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Tênis Feminino",
+                "name": "Escondidinho de Carne Seca",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 450.0,
                 "url": "https://www.arezzo.com.br/",
                 "blobs": [
                     {
@@ -171,16 +165,15 @@
         {
             "_id": 7,
             "datetime": "2019-05-01T12:00-0500",
-            "company": {
-                "_id": 6, 
-                "name": "Dafiti",
+            "category": {
+                "_id": 6,
+                "name": "Carnes",
                 "avatar": "dafiti.jpeg"
             },
             "likes": 0,
             "product": {
-                "name": "Tênis Feminino",
+                "name": "Picadinho de Carne",
                 "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "price": 420.0,
                 "url": "https://www.dafiti.com.br/",
                 "blobs": [
                     {

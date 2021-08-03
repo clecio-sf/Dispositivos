@@ -1,14 +1,17 @@
 import React from 'react'
-import { Text } from 'react-native'
+import { TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box'
 import CardView from 'react-native-cardview'
+import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
+import { Header } from 'react-native-elements';
 import feedsEstaticos from '../../assets/dicionarios/feeds.json'
-import { DescricaoProduto, NomeProduto, PrecoProduto, Likes } from '../../assets/style'
+import { DescricaoProduto, NomeProduto, PrecoProduto, Alinhar, Likes } from '../../assets/style'
 import Icon from 'react-native-vector-icons/AntDesign'
 import slide1 from '../../assets/imgs/slide1.jpeg'
 import slide2 from '../../assets/imgs/slide2.jpeg'
 import slide3 from '../../assets/imgs/slide3.jpeg'
-
+import Compartilhador from '../../components/Compartilhador';
 export default class Detalhes extends React.Component {
   constructor(props) {
     super(props)
@@ -51,20 +54,93 @@ export default class Detalhes extends React.Component {
     const { feed } = this.state
     if (feed) {
       return (
-        <CardView
-          cardElevation={2}
-          cornerRadius={0}>
-          {this.mostrarSlides()}
-          <NomeProduto>{feed.product.name}</NomeProduto>
-          <DescricaoProduto>{feed.product.description}</DescricaoProduto>
-          <PrecoProduto>R$ {feed.product.price}</PrecoProduto>
-          <Icon name='heart' size={18}>
-            <Likes>{feed.Likes}</Likes>
-          </Icon>
-        </CardView>
+        <>
+          <Header
+            leftComponent={
+              <Icon size={28} name='left' onPress={() => {
+                this.props.navigation.goBack()
+              }}></Icon>
+            }
+            centerComponent={<></>}
+            rightComponent={
+              <>
+                <Compartilhador feed={feed} />
+              </>
+            }>
+          </Header>
+          <SafeAreaView style={styles.safeAreaView}>
+            <CardView
+              cardElevation={2}
+              cornerRadius={0}>
+              {this.mostrarSlides()}
+              <Text style={styles.NomeProdutoDetalhes}>{feed.product.name}</Text>
+              <Text style={styles.descricao}>Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Obcaecati!
+                Neque quam magnam voluptate voluptatibus deleniti aut
+                repudiandae consectetur!.
+              </Text>
+              <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
+                <Likes>{feed.likes}</Likes>
+              </Icon>
+              <CardAction
+                separator={true}>
+              </CardAction>
+            </CardView>
+            <View style={styles.container}>
+              <View flexDirection="row">
+                <CardView
+                  cardElevation={2}
+                  cardMaxElevation={2}
+                  cornerRadius={0}
+                  style={styles.card}>
+                  <Text style={styles.text}>Ingredientes</Text>
+                </CardView>
+              </View>
+            </View>
+          </SafeAreaView >
+        </>
       )
     } else {
       return (null)
     }
   }
-}
+} const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1
+  },
+  container: {
+    flex: 1
+    // backgroundColor: '#EEEEEE',
+  },
+  card: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    flex: 1,
+
+  },
+  text: {
+    textAlign: 'center',
+    margin: 10,
+    height: 75
+  },
+  NomeProdutoDetalhes: {
+    fontSize: 26,
+    color: '#ffa500',
+    paddingLeft: 4,
+    paddingBottom: 5,
+  },
+  descricao: {
+    paddingLeft: 4,
+    paddingRight: 4,
+    paddingBottom: 10,
+    textAlign: 'justify'
+  },
+  icone: {
+    paddingLeft: 4,
+    paddingBottom: 6
+  }
+
+
+});

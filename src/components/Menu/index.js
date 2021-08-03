@@ -7,7 +7,7 @@ import {
   EsquerdaDaMesmaLinha, DivisorMenu, Espacador
 } from '../../assets/style'
 import avatar from '../../assets/imgs/avatar.jpeg'
-
+import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 export default class Menu extends React.Component {
   constructor(props) {
     super(props)
@@ -33,13 +33,18 @@ export default class Menu extends React.Component {
   }
 
   render = () => {
-    const empresas = empresasEstaticas.empresas
+    const empresas = empresasEstaticas.empresas;
+
     return (
-      <ScrollView>
-        <Espacador />
-        <ContenedorMenu>
-          {empresas.map((empresa) => this.mostrarEmpresa(empresa))}
-        </ContenedorMenu>
-      </ScrollView>)
+      <SafeAreaInsetsContext.Consumer>
+        {insets =>
+          <ScrollView style={{ paddingTop: insets.top }}>
+            <ContenedorMenu>
+              {empresas.map((empresa) => this.mostrarEmpresa(empresa))}
+            </ContenedorMenu>
+          </ScrollView>
+        }
+      </SafeAreaInsetsContext.Consumer>
+    );
   }
 }
