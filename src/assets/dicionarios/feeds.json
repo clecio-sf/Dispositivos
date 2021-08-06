@@ -11,8 +11,9 @@
             "likes": 0,
             "product": {
                 "name": "Strogonoff",
-                "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                "description": "500 g de peito de frango cortado em cubos\n1 cebola picada\n1 dente de alho picado\nsal a gosto\npimenta a gosto\n1 colher de manteiga ou margarina\n2 colheres (sopa) de maionese\n1 colher (chá) de mostarda\n1/2 copo de ketchup\n1 caixa de creme de leite\nbatata palha a gosto",
                 "url": "https://loja.chillibeans.com.br/",
+                "preparo": "\n⬤ Tempere o frango em cubos com sal, pimenta e a maionese.\n\n⬤ Em uma frigideira grande derreta a manteiga.\n\n⬤ Oure a cebola e o alho.\n\n⬤ Adicione o frango temperado e deixe dourando.\n\n⬤ Adicione a mostarda e em seguida o ketchup.\n\n⬤ Acrescente o creme de leite e mexa bem.\n\n⬤ Faça as correções de sal e pimenta, se achar necessário.\n\n⬤ Sirva com arroz branco e batata palha.\n\n",
                 "blobs": [
                     {
                         "type": "image",
@@ -33,7 +34,7 @@
             "_id": 2,
             "datetime": "2019-10-01T12:00-0500",
             "category": {
-                "_id": 2,
+                "_id": 1,
                 "name": "Aves",
                 "avatar": "rayban.jpeg"
             },
@@ -59,7 +60,7 @@
             "_id": 3,
             "datetime": "2019-09-01T12:00-0500",
             "category": {
-                "_id": 3,
+                "_id": 2,
                 "name": "Massas",
                 "avatar": "hstern.jpeg"
             },
@@ -84,7 +85,7 @@
             "_id": 4,
             "datetime": "2019-08-01T12:00-0500",
             "category": {
-                "_id": 3,
+                "_id": 2,
                 "name": "Massas",
                 "avatar": "hstern.jpeg"
             },
@@ -105,7 +106,7 @@
             "_id": 5,
             "datetime": "2019-07-01T12:00-0500",
             "category": {
-                "_id": 4,
+                "_id": 3,
                 "name": "Bolos e Doces",
                 "avatar": "boticario.jpeg"
             },
@@ -137,7 +138,7 @@
             "_id": 6,
             "datetime": "2019-06-01T12:00-0500",
             "category": {
-                "_id": 5,
+                "_id": 4,
                 "name": "Carnes",
                 "avatar": "arezzo.jpeg"
             },
@@ -166,7 +167,7 @@
             "_id": 7,
             "datetime": "2019-05-01T12:00-0500",
             "category": {
-                "_id": 6,
+                "_id": 4,
                 "name": "Carnes",
                 "avatar": "dafiti.jpeg"
             },

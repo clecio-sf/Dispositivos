@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "980033143687",
+    "project_id": "receitasnovo",
+    "storage_bucket": "receitasnovo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:980033143687:android:328e23ce7f09fe2831c922",
+        "android_client_info": {
+          "package_name": "com.receitas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "980033143687-tioh5q2hibmpel5613bfe9iavkosd56v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.receitas",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "980033143687-f812h8o5bus9e03h0ba6m2jtcpag5uft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMXYAjBYNIa3YTWqK0cfJgd_PBVL-p878"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "980033143687-f812h8o5bus9e03h0ba6m2jtcpag5uft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

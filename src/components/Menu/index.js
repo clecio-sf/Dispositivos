@@ -7,6 +7,7 @@ import {
   EsquerdaDaMesmaLinha, DivisorMenu, Espacador
 } from '../../assets/style'
 import avatar from '../../assets/imgs/avatar.jpeg'
+import { LoginOptionsMenu } from '../../components/Login'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 export default class Menu extends React.Component {
   constructor(props) {
@@ -15,7 +16,6 @@ export default class Menu extends React.Component {
       filtrar: props.filtragem
     }
   }
-
 
   mostrarEmpresa = (empresa) => {
     const { filtrar } = this.state
@@ -39,6 +39,7 @@ export default class Menu extends React.Component {
       <SafeAreaInsetsContext.Consumer>
         {insets =>
           <ScrollView style={{ paddingTop: insets.top }}>
+            <LoginOptionsMenu />
             <ContenedorMenu>
               {empresas.map((empresa) => this.mostrarEmpresa(empresa))}
             </ContenedorMenu>

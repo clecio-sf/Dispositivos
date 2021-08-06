@@ -1,6 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box'
 import CardView from 'react-native-cardview'
 import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
@@ -68,35 +67,54 @@ export default class Detalhes extends React.Component {
               </>
             }>
           </Header>
+
+
           <SafeAreaView style={styles.safeAreaView}>
-            <CardView
-              cardElevation={2}
-              cornerRadius={0}>
-              {this.mostrarSlides()}
-              <Text style={styles.NomeProdutoDetalhes}>{feed.product.name}</Text>
-              <Text style={styles.descricao}>Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Obcaecati!
-                Neque quam magnam voluptate voluptatibus deleniti aut
-                repudiandae consectetur!.
-              </Text>
-              <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
-                <Likes>{feed.likes}</Likes>
-              </Icon>
+            <ScrollView style={styles.scrollView}>
+              <CardView
+                cardElevation={2}
+                cornerRadius={0}>
+                {this.mostrarSlides()}
+                <Text style={styles.NomeProdutoDetalhes}>{feed.product.name}</Text>
+                {/* <Text style={styles.descricao}>{feed.product.description}
+                </Text> */}
+                <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
+                  <Likes>{feed.likes}</Likes>
+                </Icon>
+
+              </CardView>
               <CardAction
                 separator={true}>
               </CardAction>
-            </CardView>
-            <View style={styles.container}>
-              <View flexDirection="row">
-                <CardView
-                  cardElevation={2}
-                  cardMaxElevation={2}
-                  cornerRadius={0}
-                  style={styles.card}>
-                  <Text style={styles.text}>Ingredientes</Text>
-                </CardView>
+              <View style={styles.container}>
+                <View flexDirection="row">
+                  <CardView
+                    cardElevation={2}
+                    cardMaxElevation={2}
+                    cornerRadius={0}
+                    style={styles.card}>
+                    <Text style={styles.text}>Igredientes</Text>
+                    <Text tyle={styles.text}>{feed.product.preparo}</Text>
+                  </CardView>
+                </View>
               </View>
-            </View>
+              <CardAction
+                separator={true}>
+              </CardAction>
+              <View style={styles.container}>
+                <View flexDirection="row">
+                  <CardView
+                    cardElevation={2}
+                    cardMaxElevation={2}
+                    cornerRadius={0}
+                    style={styles.card}>
+                    <Text style={styles.text}>Preparo</Text>
+                    <Text tyle={styles.text}>{feed.product.preparo}</Text>
+                  </CardView>
+                </View>
+              </View>
+            </ScrollView>
+
           </SafeAreaView >
         </>
       )
@@ -123,7 +141,7 @@ export default class Detalhes extends React.Component {
   text: {
     textAlign: 'center',
     margin: 10,
-    height: 75
+    height: 'auto'
   },
   NomeProdutoDetalhes: {
     fontSize: 26,
@@ -140,7 +158,9 @@ export default class Detalhes extends React.Component {
   icone: {
     paddingLeft: 4,
     paddingBottom: 6
-  }
-
+  },
+  scrollView: {
+    marginHorizontal: 1,
+  },
 
 });

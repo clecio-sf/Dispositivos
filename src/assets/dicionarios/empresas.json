@@ -1,34 +1,20 @@
 {
     "empresas": [
         {
-            "_id": 1, 
-            "name": "Chilli Beans",
-            "avatar": "chillibean.jpeg"
+            "_id": 1,
+            "name": "Aves"
         },
         {
-            "_id": 2, 
-            "name": "Ray-Ban",
-            "avatar": "rayban.jpeg"
+            "_id": 2,
+            "name": "Massas"
         },
         {
-            "_id": 3, 
-            "name": "H. Stern",
-            "avatar": "hstern.jpeg"
-    },
-        {
-            "_id": 4, 
-            "name": "Boticário",
-            "avatar": "boticario.jpeg"
+            "_id": 3,
+            "name": "Bolos e Doces"
         },
         {
-            "_id": 5, 
-            "name": "Arezzo",
-            "avatar": "arezzo.jpeg"
-    },
-        {
-            "_id": 6, 
-            "name": "Dafiti",
-            "avatar": "dafiti.jpeg"
-        }        
+            "_id": 4,
+            "name": "Carnes"
+        }
     ]
 }
