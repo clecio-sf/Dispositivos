@@ -1,23 +1,28 @@
 import React from 'react'
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { SliderBox } from 'react-native-image-slider-box'
 import CardView from 'react-native-cardview'
-import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
+import { CardAction } from 'react-native-cards'
 import { Header } from 'react-native-elements';
 import feedsEstaticos from '../../assets/dicionarios/feeds.json'
-import { DescricaoProduto, NomeProduto, PrecoProduto, Alinhar, Likes } from '../../assets/style'
+import { styles, Espacador, CentralizadoNaMesmaLinha } from '../../assets/style'
 import Icon from 'react-native-vector-icons/AntDesign'
 import slide1 from '../../assets/imgs/slide1.jpeg'
 import slide2 from '../../assets/imgs/slide2.jpeg'
 import slide3 from '../../assets/imgs/slide3.jpeg'
 import Compartilhador from '../../components/Compartilhador';
+import SyncStorage from "sync-storage";
+import Toast from "react-native-simple-toast";
+
+
 export default class Detalhes extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
       feedId: this.props.navigation.state.params.feedId,
-      feed: null
+      feed: null,
+      gostou: false
     }
   }
   carregarFeed = () => {
@@ -34,6 +39,7 @@ export default class Detalhes extends React.Component {
   componentDidMount = () => {
     this.carregarFeed()
   }
+
   mostrarSlides = () => {
     const slides = [slide1, slide2, slide3]
     return (
@@ -48,9 +54,37 @@ export default class Detalhes extends React.Component {
     )
   }
 
+  like = () => {
+    const { feed } = this.state;
+    const usuario = SyncStorage.get("user");
+
+    console.log("adicionando o like do usuário: " + usuario.name);
+    feed.likes++;
+
+    this.setState({
+      feed: feed,
+      gostou: true
+    }, () => {
+      Toast.show("Obrigado pela sua avaliação!", Toast.LONG);
+    });
+  }
+
+  dislike = () => {
+    const { feed } = this.state;
+    const usuario = SyncStorage.get("user");
+
+    console.log("removendo o like do usuário: " + usuario.name);
+    feed.likes--;
+
+    this.setState({
+      feed: feed,
+      gostou: false
+    });
+  }
+
 
   render = () => {
-    const { feed } = this.state
+    const { feed, gostou } = this.state
     if (feed) {
       return (
         <>
@@ -62,9 +96,20 @@ export default class Detalhes extends React.Component {
             }
             centerComponent={<></>}
             rightComponent={
-              <>
+              <CentralizadoNaMesmaLinha>
                 <Compartilhador feed={feed} />
-              </>
+                <Espacador />
+                {gostou && <Icon name="heart" size={28} color={"#ff0000"} onPress={
+                  () => {
+                    this.dislike();
+                  }
+                } />}
+                {!gostou && <Icon name="hearto" size={28} color={"#ff0000"} onPress={
+                  () => {
+                    this.like();
+                  }
+                } />}
+              </CentralizadoNaMesmaLinha>
             }>
           </Header>
 
@@ -79,7 +124,7 @@ export default class Detalhes extends React.Component {
                 {/* <Text style={styles.descricao}>{feed.product.description}
                 </Text> */}
                 <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
-                  <Likes>{feed.likes}</Likes>
+                  <Text style={styles.likes}>{feed.likes}</Text>
                 </Icon>
 
               </CardView>
@@ -122,45 +167,6 @@ export default class Detalhes extends React.Component {
       return (null)
     }
   }
-} const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1
-  },
-  container: {
-    flex: 1
-    // backgroundColor: '#EEEEEE',
-  },
-  card: {
-    backgroundColor: 'white',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    flex: 1,
+}
 
-  },
-  text: {
-    textAlign: 'center',
-    margin: 10,
-    height: 'auto'
-  },
-  NomeProdutoDetalhes: {
-    fontSize: 26,
-    color: '#ffa500',
-    paddingLeft: 4,
-    paddingBottom: 5,
-  },
-  descricao: {
-    paddingLeft: 4,
-    paddingRight: 4,
-    paddingBottom: 10,
-    textAlign: 'justify'
-  },
-  icone: {
-    paddingLeft: 4,
-    paddingBottom: 6
-  },
-  scrollView: {
-    marginHorizontal: 1,
-  },
 
-});

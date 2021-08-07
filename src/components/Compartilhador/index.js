@@ -23,7 +23,7 @@ export default class Compartilhador extends React.Component {
 
   render = () => {
     return (
-      <Icon name='sharealt' size={28} onPress={() => {
+      <Icon name='sharealt' size={24} onPress={() => {
         this.compartilhar()
       }} />
     )

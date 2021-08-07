@@ -7,41 +7,10 @@ export const Avatar = styled.Image`
     height: 36px
     border-radius: 18px
 `;
-export const Nome = styled.Text`
+
+export const Espacador = styled.View`
+    flexDirection: row;
     padding: 8px;
-    font-size: 16;
-    color: #59594a;
-`;
-
-export const NomeProduto = styled.Text`
-    font-size: 16;
-    font-weight: bold;
-    color: #fff000;
-`;
-
-export const NomeEmpresa = styled.Text`
-    padding: 8px;
-    font-size: 16;
-    color: #59594a;
-`;
-
-export const DescricaoProduto = styled.Text`
-    font-size: 14;
-    color: #59594a;
-    text-align: justify;
-`;
-
-export const PrecoProduto = styled.Text`
-    font-size: 14;
-    font-weight: bold;
-    color: #59594a;
-`;
-
-export const Likes = styled.Text`
-    font-size: 20;
-    color: #59594a;
-    position: relative;
-    
 `;
 
 export const EntradaNomeProduto = styled.TextInput`
@@ -51,7 +20,6 @@ export const EntradaNomeProduto = styled.TextInput`
     border-color: #c7c7c7;
     border-width: 1;
     border-radius: 18px;
-
 `;
 
 export const CentralizadoNaMesmaLinha = styled.View`
@@ -59,11 +27,14 @@ export const CentralizadoNaMesmaLinha = styled.View`
     justify-content: center;
     align-items: center;
 `;
+
+
 export const EsquerdaDaMesmaLinha = styled.View`
     flexDirection: row;
     justify-content: flex-start;
     align-items: flex-start;
 `;
+
 export const ContenedorMenu = styled.View`
     flex: 1;
     font-size: 18;
@@ -77,34 +48,9 @@ export const DivisorMenu = styled.View`
     border-color: #050505;
 `;
 
-export const Espacador = styled.View`
-    flexDirection: row;
-    padding: 19px;
-`;
-
-export const Centro = styled.Text`
-    width: 100%;
-    text-align: center;
-    color: #c5c5c5;
-    padding: 4px;
-    font-size: 16;
-`;
-
-export const Titulo = styled.Text`
-    width: 100%;
-    text-align: center;
-    color: #000;
-    padding-top: 4px;
-    font-size: 22;
-`;
-
 export const Alinhar = styled.View`
     align-items: center;
     padding-top:10px;  
-`;
-
-export const Teste = styled.View`
-flex: 1
 `;
 
 export const styles = StyleSheet.create({
@@ -114,9 +60,53 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         paddingLeft: 16,
         paddingBottom: 5,
-
+    },
+    NomeProdutoDetalhes: {
+        fontSize: 26,
+        color: '#ffa500',
+        paddingLeft: 4,
+        paddingBottom: 5,
+    },
+    likes: {
+        fontSize: 20,
+        color: '#59594a',
+        position: 'relative'
+    },
+    categoria: {
+        padding: 8,
+        fontSize: 16,
+        color: '#59594a'
+    },
+    text: {
+        textAlign: 'center',
+        margin: 10,
+        height: 'auto'
+    },
+    descricao: {
+        paddingLeft: 4,
+        paddingRight: 4,
+        paddingBottom: 10,
+        textAlign: 'justify'
+    },
+    icone: {
+        paddingLeft: 4,
+        paddingBottom: 6
+    },
+    card: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        flex: 1,
     },
     safeAreaView: {
         flex: 1
     },
+    scrollView: {
+        marginHorizontal: 1,
+    },
+    container: {
+        flex: 1
+        // backgroundColor: '#EEEEEE',
+    }
 });
