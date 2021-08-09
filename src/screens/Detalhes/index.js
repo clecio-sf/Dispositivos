@@ -5,7 +5,7 @@ import CardView from 'react-native-cardview'
 import { CardAction } from 'react-native-cards'
 import { Header } from 'react-native-elements';
 import feedsEstaticos from '../../assets/dicionarios/feeds.json'
-import { styles, Espacador, CentralizadoNaMesmaLinha } from '../../assets/style'
+import { styles, Espacador, CentralizadoNaMesmaLinha, EsquerdaDaMesmaLinha } from '../../assets/style'
 import Icon from 'react-native-vector-icons/AntDesign'
 import slide1 from '../../assets/imgs/slide1.jpeg'
 import slide2 from '../../assets/imgs/slide2.jpeg'
@@ -82,7 +82,6 @@ export default class Detalhes extends React.Component {
     });
   }
 
-
   render = () => {
     const { feed, gostou } = this.state
     if (feed) {
@@ -121,12 +120,23 @@ export default class Detalhes extends React.Component {
                 cornerRadius={0}>
                 {this.mostrarSlides()}
                 <Text style={styles.NomeProdutoDetalhes}>{feed.product.name}</Text>
-                {/* <Text style={styles.descricao}>{feed.product.description}
-                </Text> */}
-                <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
-                  <Text style={styles.likes}>{feed.likes}</Text>
-                </Icon>
+                <EsquerdaDaMesmaLinha>
+                  <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
+                    <Text style={styles.likes}>{feed.likes}</Text>
+                  </Icon>
+                  <Espacador />
 
+                  <Icon name="message1" size={18} onPress={
+                    () => {
+                      this.props.navigation.navigate('Comentarios',
+                        {
+                          feedId: feed._id,
+                          categoria: feed.category,
+                          produto: feed.product
+                        })
+                    }
+                  } />
+                </EsquerdaDaMesmaLinha>
               </CardView>
               <CardAction
                 separator={true}>
@@ -138,8 +148,8 @@ export default class Detalhes extends React.Component {
                     cardMaxElevation={2}
                     cornerRadius={0}
                     style={styles.card}>
-                    <Text style={styles.text}>Igredientes</Text>
-                    <Text tyle={styles.text}>{feed.product.preparo}</Text>
+                    <Text style={styles.titulosDetalhes}>Ingredientes</Text>
+                    <Text style={styles.receita}>{feed.product.recipe}</Text>
                   </CardView>
                 </View>
               </View>
@@ -153,8 +163,8 @@ export default class Detalhes extends React.Component {
                     cardMaxElevation={2}
                     cornerRadius={0}
                     style={styles.card}>
-                    <Text style={styles.text}>Preparo</Text>
-                    <Text tyle={styles.text}>{feed.product.preparo}</Text>
+                    <Text style={styles.titulosDetalhes}>Modo de Preparo</Text>
+                    <Text style={styles.receita}>{feed.product.steps}</Text>
                   </CardView>
                 </View>
               </View>

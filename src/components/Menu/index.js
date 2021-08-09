@@ -25,7 +25,6 @@ export default class Menu extends React.Component {
         filtrar(empresa)
       }}>
         <EsquerdaDaMesmaLinha>
-          <Avatar source={avatar}></Avatar>
           <Text style={styles.categoria}>{empresa.name}</Text>
         </EsquerdaDaMesmaLinha>
         <DivisorMenu />

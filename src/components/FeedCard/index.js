@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native'
 import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
 import { styles, Alinhar } from '../../assets/style';
 import { Text } from 'react-native'
-import produto from '../../assets/imgs/stro.jpg';
+import produto from '../../assets/imgs/food.jpg';
 import Icon from 'react-native-vector-icons/AntDesign'
 export default class FeedCard extends React.Component {
 

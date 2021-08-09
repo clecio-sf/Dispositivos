@@ -8,7 +8,7 @@ import Feeds from './src/screens/Feeds'
 
 const Navigator = createStackNavigator({
   Feeds: { screen: Feeds },
-  Detalhes: { screen: Detalhes }
+  Detalhes: { screen: Detalhes },
 }, {
   headerMode: 'none'
 }
