@@ -1,9 +1,9 @@
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
-import { styles, Alinhar } from '../../assets/style';
+import { styles, Alinhar } from '../../assets/style'
 import { Text } from 'react-native'
-import produto from '../../assets/imgs/food.jpg';
+import produto from '../../assets/imgs/food.jpg'
 import Icon from 'react-native-vector-icons/AntDesign'
 export default class FeedCard extends React.Component {
 
@@ -39,7 +39,7 @@ export default class FeedCard extends React.Component {
               separator={true} >
             </CardAction>
             <Alinhar>
-              <Icon name="heart" size={18} color={'#ffa500'}>
+              <Icon name='heart' size={18} color={'#e63946'}>
                 <Text style={styles.likes}>{feed.likes}</Text>
               </Icon>
             </Alinhar>

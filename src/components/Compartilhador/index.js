@@ -1,6 +1,5 @@
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { displayName as nomeApp } from '../../../app.json'
 import { Share } from 'react-native'
 
 export default class Compartilhador extends React.Component {
@@ -13,8 +12,7 @@ export default class Compartilhador extends React.Component {
 
   compartilhar = () => {
     const { feed } = this.state
-    const mensagem = feed.product.url + '\n\n Enviado por ' + nomeApp +
-      '\n Baixe agora: '
+    const mensagem = 'Veja mais detalhes dessa receita em :\n\n' + feed.product.url
     const resultado = Share.share({
       title: feed.product.name,
       message: mensagem
@@ -23,7 +21,7 @@ export default class Compartilhador extends React.Component {
 
   render = () => {
     return (
-      <Icon name='sharealt' size={24} onPress={() => {
+      <Icon name='sharealt' size={24} color={'#1d3557'} onPress={() => {
         this.compartilhar()
       }} />
     )

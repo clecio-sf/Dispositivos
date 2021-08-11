@@ -1,18 +1,21 @@
 import React from 'react'
-import { Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native'
 import { SliderBox } from 'react-native-image-slider-box'
 import CardView from 'react-native-cardview'
 import { CardAction } from 'react-native-cards'
-import { Header } from 'react-native-elements';
+import { Header } from 'react-native-elements'
 import feedsEstaticos from '../../assets/dicionarios/feeds.json'
-import { styles, Espacador, CentralizadoNaMesmaLinha, EsquerdaDaMesmaLinha } from '../../assets/style'
+import {
+  styles, Espacador,
+  CentralizadoNaMesmaLinha, EsquerdaDaMesmaLinha
+} from '../../assets/style'
 import Icon from 'react-native-vector-icons/AntDesign'
 import slide1 from '../../assets/imgs/slide1.jpeg'
 import slide2 from '../../assets/imgs/slide2.jpeg'
 import slide3 from '../../assets/imgs/slide3.jpeg'
-import Compartilhador from '../../components/Compartilhador';
-import SyncStorage from "sync-storage";
-import Toast from "react-native-simple-toast";
+import Compartilhador from '../../components/Compartilhador'
+import SyncStorage from 'sync-storage'
+import Toast from 'react-native-simple-toast'
 
 
 export default class Detalhes extends React.Component {
@@ -44,42 +47,42 @@ export default class Detalhes extends React.Component {
     const slides = [slide1, slide2, slide3]
     return (
       <SliderBox
-        dotColor={'#ffad05'}
+        dotColor={'#f1faee'}
         inactiveDotColor={'#5995ed'}
         resizeMethod={'resize'}
         resizeMod={'cover'}
-        dotStyle={{ width: 9, height: 9, boderRadius: 9, marginHorizontal: 5 }}
+        dotStyle={{ width: 9, height: 9, borderRadius: 9, marginHorizontal: 5 }}
         images={slides}
       />
     )
   }
 
   like = () => {
-    const { feed } = this.state;
-    const usuario = SyncStorage.get("user");
+    const { feed } = this.state
+    const usuario = SyncStorage.get('user')
 
-    console.log("adicionando o like do usuário: " + usuario.name);
-    feed.likes++;
+    console.log('adicionando o like do usuário: ' + usuario.name)
+    feed.likes++
 
     this.setState({
       feed: feed,
       gostou: true
     }, () => {
-      Toast.show("Obrigado pela sua avaliação!", Toast.LONG);
-    });
+      Toast.show('Obrigado pela sua avaliação!', Toast.LONG)
+    })
   }
 
   dislike = () => {
-    const { feed } = this.state;
-    const usuario = SyncStorage.get("user");
+    const { feed } = this.state
+    const usuario = SyncStorage.get('user')
 
-    console.log("removendo o like do usuário: " + usuario.name);
-    feed.likes--;
+    console.log('removendo o like do usuário: ' + usuario.name)
+    feed.likes--
 
     this.setState({
       feed: feed,
       gostou: false
-    });
+    })
   }
 
   render = () => {
@@ -90,7 +93,7 @@ export default class Detalhes extends React.Component {
         <>
           <Header
             leftComponent={
-              <Icon size={28} name='left' onPress={() => {
+              <Icon size={28} name='left' color={'#1d3557'} onPress={() => {
                 this.props.navigation.goBack()
               }}></Icon>
             }
@@ -99,18 +102,21 @@ export default class Detalhes extends React.Component {
               <CentralizadoNaMesmaLinha>
                 <Compartilhador feed={feed} />
                 <Espacador />
-                {gostou && usuario && <Icon name="heart" size={28} color={"#ff0000"} onPress={
+                {gostou && usuario && <Icon name='heart' size={28} color={'#e63946'} onPress={
                   () => {
-                    this.dislike();
+                    this.dislike()
                   }
                 } />}
-                {!gostou && usuario && <Icon name="hearto" size={28} color={"#ff0000"} onPress={
+                {!gostou && usuario && <Icon name='hearto' size={28} color={'#e63946'} onPress={
                   () => {
-                    this.like();
+                    this.like()
                   }
-                } />}
+                }
+                />}
               </CentralizadoNaMesmaLinha>
-            }>
+            }
+            containerStyle={styles.cabecalho}
+          >
           </Header>
 
 
@@ -122,12 +128,12 @@ export default class Detalhes extends React.Component {
                 {this.mostrarSlides()}
                 <Text style={styles.NomeProdutoDetalhes}>{feed.product.name}</Text>
                 <EsquerdaDaMesmaLinha>
-                  <Icon style={styles.icone} name="hearto" size={18} color={'#ffa500'}>
+                  <Icon style={styles.icone} name='hearto' size={18} color={'#e63946'}>
                     <Text style={styles.likes}>{feed.likes}</Text>
                   </Icon>
                   <Espacador />
 
-                  {usuario && <Icon name="message1" size={18} onPress={
+                  {usuario && <Icon name='message1' size={18} onPress={
                     () => {
                       this.props.navigation.navigate('Comentarios',
                         {
@@ -142,7 +148,7 @@ export default class Detalhes extends React.Component {
                 separator={true}>
               </CardAction>
               <View style={styles.container}>
-                <View flexDirection="row">
+                <View flexDirection='row'>
                   <CardView
                     cardElevation={2}
                     cardMaxElevation={2}
@@ -157,7 +163,7 @@ export default class Detalhes extends React.Component {
                 separator={true}>
               </CardAction>
               <View style={styles.container}>
-                <View flexDirection="row">
+                <View flexDirection='row'>
                   <CardView
                     cardElevation={2}
                     cardMaxElevation={2}

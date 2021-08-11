@@ -2,10 +2,9 @@ import React from 'react'
 import { Text, ScrollView, TouchableOpacity } from 'react-native'
 import empresasEstaticas from '../../assets/dicionarios/empresas.json'
 import {
-  Avatar, ContenedorMenu,
-  EsquerdaDaMesmaLinha, DivisorMenu, styles
+  ContenedorMenu, EsquerdaDaMesmaLinha,
+  DivisorMenu, styles
 } from '../../assets/style'
-import avatar from '../../assets/imgs/avatar.jpeg'
 import { LoginOptionsMenu } from '../../components/Login'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import Toast from 'react-native-simple-toast'

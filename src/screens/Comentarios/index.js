@@ -8,17 +8,12 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 
 import {
-  Cabecalho,
+  styles,
   CentralizadoNaMesmaLinha,
-  NomeProduto,
-
-  AutorComentario,
   ContenedorComentarios,
   ContenedorComentarioDoUsuario,
   ContenedorComentarioDeOutroUsuario,
-  Comentario,
   EspacadorComentario,
-  DataComentario,
   DivisorComentario,
   ContenedorNovoComentario,
   Espacador
@@ -55,8 +50,6 @@ export default class Comentarios extends React.Component {
       carregando: true
     })
 
-    // carregar o total de comentarios por pagina da pagina atual
-    // tambem tem que filtrar pelo feed selecionado na tela anterior
     const idInicial = proximaPagina * COMENTARIOS_POR_PAGINA + 1
     const idFinal = idInicial + COMENTARIOS_POR_PAGINA - 1
 
@@ -68,7 +61,6 @@ export default class Comentarios extends React.Component {
       this.setState({
         proximaPagina: proximaPagina + 1,
         comentarios: [...comentarios, ...maisComentarios],
-
         atualizando: false,
         carregando: false
       })
@@ -134,14 +126,14 @@ export default class Comentarios extends React.Component {
           ]
           }>
           <ContenedorComentarioDoUsuario>
-            <AutorComentario>{'Você:'}</AutorComentario>
-            <Comentario>{comentario.content}</Comentario>
-            <DataComentario>
+            <Text style={styles.comentario}>{'Você:'}</Text>
+            <Text style={styles.comentario}>{comentario.content}</Text>
+            <Text style={styles.comentario}>
               <Moment element={Text} parse='YYYY-MM-DD HH:mm'
                 format='DD/MM/YYYY HH:mm'>
                 {comentario.datetime}
               </Moment>
-            </DataComentario>
+            </Text>
           </ContenedorComentarioDoUsuario>
         </Swipeable>
         <EspacadorComentario />
@@ -153,16 +145,17 @@ export default class Comentarios extends React.Component {
     return (
       <>
         <ContenedorComentarioDeOutroUsuario>
-          <AutorComentario>{comentario.user.name}</AutorComentario>
-          <Comentario>{comentario.content} </Comentario>
-          <DataComentario>
+          <Text style={styles.comentario}>{comentario.user.name}</Text>
+          <Text style={styles.comentario}>{comentario.content} </Text>
+          <Text style={styles.comentario}>
             <Moment element={Text} parse='YYYY-MM-DD HH:mm'
               format='DD/MM/YYYY HH:mm'>
               {comentario.datetime}
             </Moment>
-          </DataComentario>
+          </Text>
           <EspacadorComentario />
         </ContenedorComentarioDeOutroUsuario>
+        <EspacadorComentario />
       </>
     )
   }
@@ -298,7 +291,7 @@ export default class Comentarios extends React.Component {
 
           centerComponent={
             <CentralizadoNaMesmaLinha>
-              <Text> {produto.name}</Text>
+              <Text style={styles.NomeProduto}> {produto.name}</Text>
             </CentralizadoNaMesmaLinha>
           }
 
@@ -310,18 +303,15 @@ export default class Comentarios extends React.Component {
             } />
           }
 
-          containerStyle={Cabecalho}
+          containerStyle={styles.cabecalho}
         />
         <ContenedorComentarios>
           <FlatList
             data={comentarios}
-
             onEndReached={() => { this.carregarMaisComentarios() }}
             onEndReachedThreshold={0.1}
-
             onRefresh={() => { this.atualizar() }}
             refreshing={atualizando}
-
             keyExtractor={(item) => String(item._id)}
             renderItem={({ item }) => {
               if (item.user.email == usuario.email) {
