@@ -7,6 +7,11 @@ export const Avatar = styled.Image`
     height: 36px
     border-radius: 18px
 `;
+export const Comentario = styled.Text`
+    padding: 6px;
+    font-size: 16;
+    color: #283044;
+`;
 
 export const Espacador = styled.View`
     flexDirection: row;

@@ -5,10 +5,12 @@ import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import Detalhes from './src/screens/Detalhes'
 import Feeds from './src/screens/Feeds'
+import Comentarios from './src/screens/Comentarios'
 
 const Navigator = createStackNavigator({
   Feeds: { screen: Feeds },
   Detalhes: { screen: Detalhes },
+  Comentarios: { screen: Comentarios }
 }, {
   headerMode: 'none'
 }

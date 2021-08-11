@@ -84,6 +84,7 @@ export default class Detalhes extends React.Component {
 
   render = () => {
     const { feed, gostou } = this.state
+    const usuario = SyncStorage.get('user')
     if (feed) {
       return (
         <>
@@ -98,12 +99,12 @@ export default class Detalhes extends React.Component {
               <CentralizadoNaMesmaLinha>
                 <Compartilhador feed={feed} />
                 <Espacador />
-                {gostou && <Icon name="heart" size={28} color={"#ff0000"} onPress={
+                {gostou && usuario && <Icon name="heart" size={28} color={"#ff0000"} onPress={
                   () => {
                     this.dislike();
                   }
                 } />}
-                {!gostou && <Icon name="hearto" size={28} color={"#ff0000"} onPress={
+                {!gostou && usuario && <Icon name="hearto" size={28} color={"#ff0000"} onPress={
                   () => {
                     this.like();
                   }
@@ -126,16 +127,15 @@ export default class Detalhes extends React.Component {
                   </Icon>
                   <Espacador />
 
-                  <Icon name="message1" size={18} onPress={
+                  {usuario && <Icon name="message1" size={18} onPress={
                     () => {
                       this.props.navigation.navigate('Comentarios',
                         {
                           feedId: feed._id,
-                          categoria: feed.category,
                           produto: feed.product
                         })
                     }
-                  } />
+                  } />}
                 </EsquerdaDaMesmaLinha>
               </CardView>
               <CardAction
