@@ -7,8 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import { EntradaNomeProduto, CentralizadoNaMesmaLinha } from '../../assets/style'
 import Menu from '../../components/Menu'
 import DrawerLayout from 'react-native-drawer-layout'
-
-const FEEDS_POR_PAGINA = 4
+import { getFeeds, getFeedsPorProduto } from '../../api'
 
 export default class Feeds extends React.Component {
 
@@ -18,7 +17,7 @@ export default class Feeds extends React.Component {
     this.filtrarPorEmpresa = this.filtrarPorEmpresa.bind(this)
 
     this.state = {
-      proximaPagina: 0,
+      proximaPagina: 1,
       feeds: [],
 
       empresaEscolhida: null,
@@ -37,48 +36,51 @@ export default class Feeds extends React.Component {
     })
 
     if (empresaEscolhida) {
-      const maisFeeds = feedsEstaticos.feeds.filter((feed) =>
-        feed.category._id == empresaEscolhida._id)
 
-      this.setState({
-        feeds: maisFeeds,
-
-        atualizando: false,
-        carregando: false
-      })
     } else if (nomeProduto) {
-      const maisFeeds = feedsEstaticos.feeds.filter((feed) =>
-        feed.product.name.toLowerCase().includes(nomeProduto.toLowerCase()))
+      getFeedsPorProduto(nomeProduto, proximaPagina).then((maisFeeds) => {
+        if (maisFeeds.length) {
+          console.log('adicionando ' + maisFeeds.length + ' feeds')
 
-      this.setState({
-        feeds: maisFeeds,
+          // incrementar a pagina e guardar os feeds
+          this.setState({
+            proximaPagina: proximaPagina + 1,
+            feeds: [...feeds, ...maisFeeds],
 
-        atualizando: false,
-        carregando: false
+            atualizando: false,
+            carregando: false
+          })
+        } else {
+          this.setState({
+            atualizando: false,
+            carregando: false
+          })
+        }
+      }).catch((erro) => {
+        console.error('erro ao acessar feeds' + erro)
       })
     } else {
-      // carregar o total de feeds por pagina da pagina atual
-      const idInicial = proximaPagina * FEEDS_POR_PAGINA + 1
-      const idFinal = idInicial + FEEDS_POR_PAGINA - 1
-      const maisFeeds = feedsEstaticos.feeds.filter((feed) => feed._id >= idInicial &&
-        feed._id <= idFinal)
-      if (maisFeeds.length) {
-        console.log('adicionando ' + maisFeeds.length + ' feeds')
+      getFeeds(proximaPagina).then((maisFeeds) => {
+        if (maisFeeds.length) {
+          console.log('adicionando ' + maisFeeds.length + ' feeds')
 
-        // incrementar a pagina e guardar os feeds
-        this.setState({
-          proximaPagina: proximaPagina + 1,
-          feeds: [...feeds, ...maisFeeds],
+          // incrementar a pagina e guardar os feeds
+          this.setState({
+            proximaPagina: proximaPagina + 1,
+            feeds: [...feeds, ...maisFeeds],
 
-          atualizando: false,
-          carregando: false
-        })
-      } else {
-        this.setState({
-          atualizando: false,
-          carregando: false
-        })
-      }
+            atualizando: false,
+            carregando: false
+          })
+        } else {
+          this.setState({
+            atualizando: false,
+            carregando: false
+          })
+        }
+      }).catch((erro) => {
+        console.error('erro ao acessar feeds' + erro)
+      })
     }
   }
 
@@ -97,7 +99,7 @@ export default class Feeds extends React.Component {
   }
 
   atualizar = () => {
-    this.setState({ atualizando: true, feeds: [], proximaPagina: 0, nomeProduto: null, empresaEscolhida: null },
+    this.setState({ atualizando: true, feeds: [], proximaPagina: 1, nomeProduto: null, empresaEscolhida: null },
       () => {
         this.carregarFeeds()
       })
@@ -127,7 +129,12 @@ export default class Feeds extends React.Component {
         <Icon style={{ padding: 8 }} size={20} name='search1'
           onPress={
             () => {
-              this.carregarFeeds()
+              this.setState({
+                proximaPagina: 1,
+                feeds: []
+              }, () => {
+                this.carregarFeeds()
+              })
             }
           }>
         </Icon>

@@ -1,0 +1,57 @@
+version: '3'
+services:
+  feeds:
+    image: receitas
+    build: ./dockerfiles/servicos/
+    hostname: feeds
+    ports:
+      - '5001:5000'
+    links:
+      - 'bancodados:bd'
+    volumes:
+      - './feeds:/servico'
+    command: python3 servico.py
+  empresas:
+    image: receitas
+    build: ./dockerfiles/servicos/
+    hostname: empresas
+    ports:
+      - '5002:5000'
+    volumes:
+      - './empresas:/servico'
+    command: python3 servico.py
+  comentarios:
+    image: receitas
+    build: ./dockerfiles/servicos/
+    hostname: comentarios
+    ports:
+      - '5003:5000'
+    volumes:
+      - './comentarios:servico'
+    command: python3 servico.py
+  likes:
+    image: receitas
+    build: ./dockerfiles/servicos/
+    hostname: likes
+    ports:
+      - '5004:5000'
+    volumes:
+      - './likes:servico'
+    command: python3 servico.py
+  bancodados:
+    image: mysql
+    hostname: bancodados
+    ports:
+      - '5005:3306'
+    expose:
+      - '5005'
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+  arquivos:
+    image: arquivos
+    build: ./dockerfiles/nginx/
+    volumes:
+      - './assets/imagens:/usr/share/nginx/html'
+    hostname: arquivos
+    ports:
+      - '5006:80'
