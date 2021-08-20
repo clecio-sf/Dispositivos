@@ -1,4 +1,8 @@
 const FEEDS_URL = "http://192.168.0.102:5001/"
+const CATEGORIAS_URL = "http://192.168.0.102:5002/"
+const ARQUIVOS_URL = "http://192.168.0.102:5006/"
+
+
 
 
 export const acessarUrl = async (url) => {
@@ -24,3 +28,12 @@ export const getFeeds = async (pagina) => {
 export const getFeedsPorProduto = async (nomeProduto, pagina) => {
   return acessarUrl(FEEDS_URL + "feeds_por_produto/" + nomeProduto + "/" + pagina, { method: "GET" })
 }
+
+export const getCategorias = async () => {
+  return acessarUrl(CATEGORIAS_URL + "categoria")
+}
+
+export const getImagem = (imagem) => {
+  return { uri: ARQUIVOS_URL + imagem }
+}
+

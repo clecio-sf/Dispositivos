@@ -11,14 +11,16 @@ services:
     volumes:
       - './feeds:/servico'
     command: python3 servico.py
-  empresas:
+  categorias:
     image: receitas
     build: ./dockerfiles/servicos/
-    hostname: empresas
+    hostname: categorias
     ports:
       - '5002:5000'
+    links:
+      - 'bancodados:bd'
     volumes:
-      - './empresas:/servico'
+      - './categorias:/servico'
     command: python3 servico.py
   comentarios:
     image: receitas
@@ -26,8 +28,10 @@ services:
     hostname: comentarios
     ports:
       - '5003:5000'
+    links:
+      - 'bancodados:bd'
     volumes:
-      - './comentarios:servico'
+      - './categorias:/servico'
     command: python3 servico.py
   likes:
     image: receitas
@@ -35,8 +39,10 @@ services:
     hostname: likes
     ports:
       - '5004:5000'
+    links:
+      - 'bancodados:bd'
     volumes:
-      - './likes:servico'
+      - './categorias:/servico'
     command: python3 servico.py
   bancodados:
     image: mysql
@@ -55,3 +61,5 @@ services:
     hostname: arquivos
     ports:
       - '5006:80'
+    links:
+      - 'bancodados:bd'

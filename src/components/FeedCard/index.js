@@ -3,8 +3,8 @@ import { TouchableOpacity } from 'react-native'
 import { Card, CardImage, CardContent, CardTitle, CardAction } from 'react-native-cards'
 import { styles, Alinhar } from '../../assets/style'
 import { Text } from 'react-native'
-import produto from '../../assets/imgs/food.jpg'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { getImagem } from '../../api'
 export default class FeedCard extends React.Component {
 
   constructor(props) {
@@ -24,7 +24,7 @@ export default class FeedCard extends React.Component {
         }
       }>
         <Card>
-          <CardImage source={produto} />
+          <CardImage source={getImagem(feed.product.blobs[0].file)} />
           <CardAction
             separator={true} >
           </CardAction>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Text, ScrollView, TouchableOpacity } from 'react-native'
-import empresasEstaticas from '../../assets/dicionarios/empresas.json'
 import {
   ContenedorMenu, EsquerdaDaMesmaLinha,
   DivisorMenu, styles
@@ -8,23 +7,34 @@ import {
 import { LoginOptionsMenu } from '../../components/Login'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import Toast from 'react-native-simple-toast'
+import { getCategorias } from "../../api";
+
 export default class Menu extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       atualizar: true,
-      filtrar: props.filtragem
+      filtrar: props.filtragem,
+      categorias: []
     }
   }
-
-  mostrarEmpresa = (empresa) => {
+  componentDidMount = () => {
+    getCategorias().then((maisCategorias) => {
+      this.setState({
+        categorias: maisCategorias
+      });
+    }).catch((erro) => {
+      console.error("ocorreu um erro criando menu de categorias: " + erro);
+    });
+  }
+  mostrarCategoria = (categoria) => {
     const { filtrar } = this.state
     return (
       <TouchableOpacity onPress={() => {
-        filtrar(empresa)
+        filtrar(categoria)
       }}>
         <EsquerdaDaMesmaLinha>
-          <Text style={styles.categoria}>{empresa.name}</Text>
+          <Text style={styles.categoria}>{categoria.name}</Text>
         </EsquerdaDaMesmaLinha>
         <DivisorMenu />
       </TouchableOpacity>
@@ -48,7 +58,7 @@ export default class Menu extends React.Component {
     })
   }
   render = () => {
-    const empresas = empresasEstaticas.empresas;
+    const { categorias } = this.state
 
     return (
       <SafeAreaInsetsContext.Consumer>
@@ -56,7 +66,7 @@ export default class Menu extends React.Component {
           <ScrollView style={{ paddingTop: insets.top }}>
             <LoginOptionsMenu onLogin={this.onLogin} onLogout={this.onLogout} />
             <ContenedorMenu>
-              {empresas.map((empresa) => this.mostrarEmpresa(empresa))}
+              {categorias.map((categoria) => this.mostrarCategoria(categoria))}
             </ContenedorMenu>
           </ScrollView>
         }
