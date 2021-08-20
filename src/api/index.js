@@ -29,6 +29,10 @@ export const getFeedsPorProduto = async (nomeProduto, pagina) => {
   return acessarUrl(FEEDS_URL + "feeds_por_produto/" + nomeProduto + "/" + pagina, { method: "GET" })
 }
 
+export const getFeedsPorCategoria = async (categoriaId, pagina) => {
+  return acessarUrl(FEEDS_URL + "feeds_por_categoria/" + categoriaId + "/" + pagina, { method: "GET" })
+}
+
 export const getCategorias = async () => {
   return acessarUrl(CATEGORIAS_URL + "categoria")
 }

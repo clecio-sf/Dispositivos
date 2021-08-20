@@ -122,9 +122,10 @@ def get_feeds_por_categoria(categoria_id, pagina):
     conexao = get_conexao_bd()
     cursor = conexao.cursor(dictionary=True)
     cursor.execute(
-        "select feeds.id as feed_id, DATE_FORMAT(feeds.data, '%Y-%m-%d %H:%i') as data, " +
+        "select feeds.id as feed_id, DATE_FORMAT(feeds.data, '%Y-%m-%d T') as data," +
         "categoria.id as categoria_id, categoria.nome as nome_categoria, " +
-        "produtos.nome as nome_produto, " +
+        "produtos.nome as nome_produto, produtos.receita as receita, " +
+        "produtos.passos as passos_receita ," +
         "produtos.imagem1, IFNULL(produtos.imagem2, '') as imagem2, IFNULL(produtos.imagem3, '') as imagem3 " +
         "from feeds, produtos, categoria " +
         "where produtos.id = feeds.produto " +

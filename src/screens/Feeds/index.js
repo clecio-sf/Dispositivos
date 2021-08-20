@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import { EntradaNomeProduto, CentralizadoNaMesmaLinha } from '../../assets/style'
 import Menu from '../../components/Menu'
 import DrawerLayout from 'react-native-drawer-layout'
-import { getFeeds, getFeedsPorProduto } from '../../api'
+import { getFeeds, getFeedsPorProduto, getFeedsPorCategoria } from '../../api'
 
 export default class Feeds extends React.Component {
 
@@ -27,8 +27,30 @@ export default class Feeds extends React.Component {
     }
   }
 
+  mostrarMaisFeeds = (maisFeeds) => {
+    const { proximaPagina, feeds } = this.state;
+
+    if (maisFeeds) {
+      console.log("adicionando " + maisFeeds.length + " feeds");
+
+      // incrementar a pagina e guardar os feeds
+      this.setState({
+        proximaPagina: proximaPagina + 1,
+        feeds: [...feeds, ...maisFeeds],
+
+        atualizando: false,
+        carregando: false
+      });
+    } else {
+      this.setState({
+        atualizando: false,
+        carregando: false
+      })
+    }
+  }
+
   carregarFeeds = () => {
-    const { proximaPagina, feeds, nomeProduto, empresaEscolhida } = this.state
+    const { proximaPagina, nomeProduto, empresaEscolhida } = this.state
 
     // avisa que estah carregando
     this.setState({
@@ -36,48 +58,20 @@ export default class Feeds extends React.Component {
     })
 
     if (empresaEscolhida) {
-
+      getFeedsPorCategoria(empresaEscolhida._id, proximaPagina).then((maisFeeds) => {
+        this.mostrarMaisFeeds(maisFeeds)
+      }).catch((erro) => {
+        console.error('erro ao acessar categorias ' + erro)
+      })
     } else if (nomeProduto) {
       getFeedsPorProduto(nomeProduto, proximaPagina).then((maisFeeds) => {
-        if (maisFeeds.length) {
-          console.log('adicionando ' + maisFeeds.length + ' feeds')
-
-          // incrementar a pagina e guardar os feeds
-          this.setState({
-            proximaPagina: proximaPagina + 1,
-            feeds: [...feeds, ...maisFeeds],
-
-            atualizando: false,
-            carregando: false
-          })
-        } else {
-          this.setState({
-            atualizando: false,
-            carregando: false
-          })
-        }
+        this.mostrarMaisFeeds(maisFeeds)
       }).catch((erro) => {
         console.error('erro ao acessar feeds' + erro)
       })
     } else {
       getFeeds(proximaPagina).then((maisFeeds) => {
-        if (maisFeeds.length) {
-          console.log('adicionando ' + maisFeeds.length + ' feeds')
-
-          // incrementar a pagina e guardar os feeds
-          this.setState({
-            proximaPagina: proximaPagina + 1,
-            feeds: [...feeds, ...maisFeeds],
-
-            atualizando: false,
-            carregando: false
-          })
-        } else {
-          this.setState({
-            atualizando: false,
-            carregando: false
-          })
-        }
+        this.mostrarMaisFeeds(maisFeeds)
       }).catch((erro) => {
         console.error('erro ao acessar feeds' + erro)
       })
@@ -148,7 +142,9 @@ export default class Feeds extends React.Component {
 
   filtrarPorEmpresa = (empresa) => {
     this.setState({
-      empresaEscolhida: empresa
+      empresaEscolhida: empresa,
+      proximaPagina: 1,
+      feeds: []
     }, () => {
       this.carregarFeeds()
     })
