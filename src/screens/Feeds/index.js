@@ -238,6 +238,7 @@ export default class Feeds extends React.Component {
       </ContenedorMensagem>
     );
   }
+
   mostrarMensagemCarregando = () => {
     return (
       <ContenedorMensagem>

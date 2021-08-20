@@ -12,7 +12,10 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import Compartilhador from '../../components/Compartilhador'
 import SyncStorage from 'sync-storage'
 import Toast from 'react-native-simple-toast'
-import { getFeed, getImagem, usuarioGostou, gostar, desgostar } from '../../api'
+import {
+  getFeed, getImagem, usuarioGostou, gostar, desgostar,
+  comentariosAlive, likesAlive
+} from '../../api'
 
 const TOTAL_IMAGENS_SLIDE = 3
 export default class Detalhes extends React.Component {
@@ -22,7 +25,9 @@ export default class Detalhes extends React.Component {
     this.state = {
       feedId: this.props.navigation.state.params.feedId,
       feed: null,
-      gostou: false
+      gostou: false,
+      podeGostar: false,
+      podeComentar: false
     }
   }
 
@@ -50,6 +55,37 @@ export default class Detalhes extends React.Component {
   }
 
   componentDidMount = () => {
+    likesAlive().then((resultado) => {
+      if (resultado.alive === "yes") {
+        this.setState({
+          podeGostar: true
+        });
+      } else {
+        this.setState({
+          podeGostar: false
+        }, () => {
+          Toast.show("Não é possível registrar likes agora :(", Toast.SHORT);
+        });
+      }
+    }).catch((erro) => {
+      console.error("erro verificando diponibilidade de servico: " + erro);
+    });
+
+    comentariosAlive().then((resultado) => {
+      if (resultado.alive === "yes") {
+        this.setState({
+          podeComentar: true
+        });
+      } else {
+        this.setState({
+          podeComentar: false
+        }, () => {
+          Toast.show("Não é possível comentar sobre o produto agora :(", Toast.SHORT);
+        });
+      }
+    }).catch((erro) => {
+      console.error("erro verificando diponibilidade de servico: " + erro);
+    });
 
     this.carregarFeed()
   }
@@ -105,7 +141,7 @@ export default class Detalhes extends React.Component {
   }
 
   render = () => {
-    const { feed, gostou } = this.state
+    const { feed, gostou, podeGostar, podeComentar } = this.state
     const usuario = SyncStorage.get('user')
     if (feed) {
       return (
@@ -121,12 +157,12 @@ export default class Detalhes extends React.Component {
               <CentralizadoNaMesmaLinha>
                 <Compartilhador feed={feed} />
                 <Espacador />
-                {gostou && usuario && <Icon name='heart' size={28} color={'#e63946'} onPress={
+                {podeGostar && gostou && usuario && <Icon name='heart' size={28} color={'#e63946'} onPress={
                   () => {
                     this.dislike()
                   }
                 } />}
-                {!gostou && usuario && <Icon name='hearto' size={28} color={'#e63946'} onPress={
+                {podeGostar && !gostou && usuario && <Icon name='hearto' size={28} color={'#e63946'} onPress={
                   () => {
                     this.like()
                   }
@@ -152,7 +188,7 @@ export default class Detalhes extends React.Component {
                   </Icon>
                   <Espacador />
 
-                  {usuario && <Icon name='message1' size={18} onPress={
+                  {podeComentar && usuario && <Icon name='message1' size={18} onPress={
                     () => {
                       this.props.navigation.navigate('Comentarios',
                         {

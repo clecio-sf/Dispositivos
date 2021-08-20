@@ -6,7 +6,7 @@ import Swipeable from 'react-native-swipeable-row'
 import SyncStorage from 'sync-storage'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { getComentarios, adicionarComentario, removerComentario } from '../../api'
+import { getComentarios, adicionarComentario, removerComentario, comentariosAlive } from '../../api'
 import {
   styles,
   CentralizadoNaMesmaLinha,
@@ -16,7 +16,8 @@ import {
   EspacadorComentario,
   DivisorComentario,
   ContenedorNovoComentario,
-  Espacador
+  Espacador,
+  ContenedorMensagem
 } from '../../assets/style'
 import Toast from 'react-native-simple-toast'
 
@@ -39,7 +40,8 @@ export default class Comentarios extends React.Component {
       carregando: false,
       atualizando: false,
       telaAdicaoVisivel: false,
-      usuario: null
+      usuario: null,
+      podeComentar: true,
 
     }
   }
@@ -51,24 +53,38 @@ export default class Comentarios extends React.Component {
       carregando: true
     });
 
-    getComentarios(feedId, proximaPagina).then((maisComentarios) => {
-      if (maisComentarios.length) {
+    comentariosAlive().then((resultado) => {
+      if (resultado.alive === "yes") {
         this.setState({
-          proximaPagina: proximaPagina + 1,
-          comentarios: [...comentarios, ...maisComentarios],
+          podeComentar: true
+        }, () => {
+          getComentarios(feedId, proximaPagina).then((maisComentarios) => {
+            if (maisComentarios.length) {
+              this.setState({
+                proximaPagina: proximaPagina + 1,
+                comentarios: [...comentarios, ...maisComentarios],
 
-          atualizando: false,
-          carregando: false
+                atualizando: false,
+                carregando: false
+              });
+            } else {
+              this.setState({
+                atualizando: false,
+                carregando: false
+              })
+            }
+          }).catch((erro) => {
+            console.error("erro exibindo comentarios: " + erro);
+          })
         });
       } else {
         this.setState({
-          atualizando: false,
-          carregando: false
-        })
+          podeComentar: false
+        });
       }
     }).catch((erro) => {
-      console.error("erro exibindo comentarios: " + erro);
-    })
+      console.log("erro verificando a disponibilidade do servico: " + erro);
+    });
   }
 
   componentDidMount = () => {
@@ -172,20 +188,33 @@ export default class Comentarios extends React.Component {
 
   adicionarComentario = () => {
     const { feedId, textoNovoComentario } = this.state;
-
-    adicionarComentario(feedId, textoNovoComentario).then(
-      (resultado) => {
-        if (resultado.situacao == "ok") {
-          this.setState({
-            proximaPagina: 1,
-            comentarios: []
-          }, () => {
-            this.carregarComentarios();
+    comentariosAlive().then((resultado) => {
+      if (resultado.alive === 'yes') {
+        this.setState({
+          podeComentar: true
+        }, () => {
+          adicionarComentario(feedId, textoNovoComentario).then(
+            (resultado) => {
+              if (resultado.situacao == "ok") {
+                this.setState({
+                  proximaPagina: 1,
+                  comentarios: []
+                }, () => {
+                  this.carregarComentarios();
+                })
+              }
+            }
+          ).catch((erro) => {
+            console.error("erro adicionando comentario: " + erro);
           })
-        }
+        })
+      } else {
+        this.setState({
+          podeComentar: false
+        })
       }
-    ).catch((erro) => {
-      console.error("erro adicionando comentario: " + erro);
+    }).catch((erro) => {
+      console.log('erro ao gravar comentrio ' + erro)
     })
     this.mudarVisibilidadeTelaAdicao()
   }
@@ -322,18 +351,45 @@ export default class Comentarios extends React.Component {
       </>
     )
   }
+  mostrarBotaoAtualizar = () => {
+    return (
+      <ContenedorMensagem>
+        <Text style={styles.mensagem}>Um dos nossos serviços não está funcionando :(</Text>
+        <Text style={styles.mensagem}>Tente novamente mais tarde!</Text>
+        <Espacador />
+        <Button
+          icon={
+            <Icon
+              name="reload1"
+              size={22}
+              color="#fff"
+            />
+          }
+
+          title="Tentar agora"
+          type="solid"
+
+          onPress={
+            () => {
+              this.carregarComentarios();
+            }
+          }
+        />
+      </ContenedorMensagem>
+    );
+  }
 
   render = () => {
-    const { comentarios, telaAdicaoVisivel } = this.state
+    const { podeComentar, telaAdicaoVisivel } = this.state;
 
-    if (comentarios) {
+    if (podeComentar) {
       return (
         <>
           {this.mostrarComentarios()}
           {telaAdicaoVisivel && this.mostrarTelaAdicaoComentario()}
-        </>)
+        </>);
     } else {
-      return null
+      return (this.mostrarBotaoAtualizar());
     }
   }
 
