@@ -21,6 +21,11 @@ def get_conexao_bd():
     return conexao
 
 
+@servico.route("/isalive")
+def is_alive():
+    return jsonify(alive=IS_ALIVE)
+
+
 @servico.route("/gostou/<string:conta>/<int:feed_id>")
 def usuario_gostou(conta, feed_id):
     num_likes = 0
@@ -45,7 +50,6 @@ def gostar(conta, feed_id):
     try:
         cursor.execute(
             f"insert into likes(feed, email) values ({feed_id}, '{conta}')")
-
         conexao.commit()
     except:
         conexao.rollback()

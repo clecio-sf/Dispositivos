@@ -1,13 +1,15 @@
 import React from 'react'
-import { View, FlatList } from 'react-native'
-import feedsEstaticos from '../../assets/dicionarios/feeds.json'
+import { View, FlatList, Text } from 'react-native'
 import FeedCard from '../../components/FeedCard'
-import { Header } from 'react-native-elements'
+import { Header, Button } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/AntDesign'
-import { EntradaNomeProduto, CentralizadoNaMesmaLinha } from '../../assets/style'
+import {
+  EntradaNomeProduto, CentralizadoNaMesmaLinha,
+  ContenedorMensagem, styles, Espacador
+} from '../../assets/style'
 import Menu from '../../components/Menu'
 import DrawerLayout from 'react-native-drawer-layout'
-import { getFeeds, getFeedsPorProduto, getFeedsPorCategoria } from '../../api'
+import { getFeeds, getFeedsPorProduto, getFeedsPorCategoria, feedAlive } from '../../api'
 
 export default class Feeds extends React.Component {
 
@@ -23,7 +25,8 @@ export default class Feeds extends React.Component {
       empresaEscolhida: null,
       nomeProduto: null,
       atualizando: false,
-      carregando: false
+      carregando: false,
+      podeVerFeeds: true
     }
   }
 
@@ -50,32 +53,45 @@ export default class Feeds extends React.Component {
   }
 
   carregarFeeds = () => {
-    const { proximaPagina, nomeProduto, empresaEscolhida } = this.state
-
-    // avisa que estah carregando
+    const { proximaPagina, nomeProduto, empresaEscolhida,
+      filtrarPorLikes, usuario } = this.state;
     this.setState({
       carregando: true
-    })
+    });
+    feedAlive().then((resultado) => {
+      if (resultado.alive === "yes") {
+        this.setState({
+          podeVerFeeds: true
+        }, () => {
+          if (empresaEscolhida) {
+            getFeedsPorCategoria(empresaEscolhida._id, proximaPagina).then((maisFeeds) => {
+              this.mostrarMaisFeeds(maisFeeds);
+            }).catch((erro) => {
+              console.log("erro acessando feeds por empresa: " + erro);
+            });
+          } else if (nomeProduto) {
+            getFeedsPorProduto(nomeProduto, proximaPagina).then((maisFeeds) => {
+              this.mostrarMaisFeeds(maisFeeds);
+            }).catch((erro) => {
+              console.error("erro acessando feeds por produto: " + erro);
+            });
+          } else {
+            getFeeds(proximaPagina).then((maisFeeds) => {
+              this.mostrarMaisFeeds(maisFeeds);
+            }).catch((erro) => {
+              console.error("erro acessando feeds: " + erro);
+            });
+          }
 
-    if (empresaEscolhida) {
-      getFeedsPorCategoria(empresaEscolhida._id, proximaPagina).then((maisFeeds) => {
-        this.mostrarMaisFeeds(maisFeeds)
-      }).catch((erro) => {
-        console.log('erro ao acessar categorias ' + erro)
-      })
-    } else if (nomeProduto) {
-      getFeedsPorProduto(nomeProduto, proximaPagina).then((maisFeeds) => {
-        this.mostrarMaisFeeds(maisFeeds)
-      }).catch((erro) => {
-        console.log('erro ao acessar feeds' + erro)
-      })
-    } else {
-      getFeeds(proximaPagina).then((maisFeeds) => {
-        this.mostrarMaisFeeds(maisFeeds)
-      }).catch((erro) => {
-        console.log('erro ao acessar feeds' + erro)
-      })
-    }
+        })
+      } else {
+        this.setState({
+          podeVerFeeds: false
+        })
+      }
+    }).catch((erro) => {
+      console.log("erro verificando a disponibilidade do servico: " + erro);
+    });
   }
 
   componentDidMount = () => {
@@ -198,17 +214,53 @@ export default class Feeds extends React.Component {
       </DrawerLayout>
     )
   }
+  mostrarBotaoAtualizar = () => {
+    return (
+      <ContenedorMensagem>
+        <Text style={styles.mensagem}>Um dos nossos serviços não está funcionando :(</Text>
+        <Text style={styles.mensagem}>Tente novamente mais tarde</Text>
+        <Espacador />
+        <Button icon={
+          <Icon
+            name="reload1"
+            size={22}
+            color="#fff"
+          />
+        }
+          title="Tentar agora"
+          type="solid"
+          onPress={
+            () => {
+              this.carregarFeeds();
+            }
+          }
+        />
+      </ContenedorMensagem>
+    );
+  }
+  mostrarMensagemCarregando = () => {
+    return (
+      <ContenedorMensagem>
+        <Text style={styles.mensagem}>esperando feeds</Text>
+      </ContenedorMensagem>
+    );
+  }
 
   render = () => {
-    const { feeds } = this.state
+    const { feeds, podeVerFeeds } = this.state;
 
-    if (feeds.length) {
-      console.log('exibindo ' + feeds.length + 'feeds')
-      return (
-        this.mostrarFeeds(feeds)
-      )
+    if (podeVerFeeds) {
+      if (feeds) {
+        console.log("exibindo " + feeds.length + " feeds");
+
+        return (
+          this.mostrarFeeds(feeds)
+        );
+      } else {
+        return (this.mostrarMensagemCarregando());
+      }
     } else {
-      return (null)
+      return (this.mostrarBotaoAtualizar());
     }
   }
 

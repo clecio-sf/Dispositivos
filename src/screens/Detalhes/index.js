@@ -4,7 +4,6 @@ import { SliderBox } from 'react-native-image-slider-box'
 import CardView from 'react-native-cardview'
 import { CardAction } from 'react-native-cards'
 import { Header } from 'react-native-elements'
-import feedsEstaticos from '../../assets/dicionarios/feeds.json'
 import {
   styles, Espacador,
   CentralizadoNaMesmaLinha, EsquerdaDaMesmaLinha
@@ -28,9 +27,9 @@ export default class Detalhes extends React.Component {
   }
 
   verificarUsuarioGostou = () => {
-    const { feedId, usuario } = this.state;
+    const { feedId } = this.state;
 
-    usuarioGostou(usuario, feedId).then((resultado) => {
+    usuarioGostou(feedId).then((resultado) => {
       this.setState({ gostou: (resultado.likes > 0) });
     }).catch((erro) => {
       console.log("erro verificando se usuario gostou: " + erro);
@@ -39,7 +38,6 @@ export default class Detalhes extends React.Component {
 
   carregarFeed = () => {
     const { feedId } = this.state;
-
     getFeed(feedId).then((feedAtualizado) => {
       this.setState({
         feed: feedAtualizado
@@ -78,11 +76,9 @@ export default class Detalhes extends React.Component {
   }
 
   like = () => {
-    const { usuario, feedId } = this.state;
-    this.carregarFeed()
-    gostar(usuario, feedId).then((resultado) => {
+    const { feedId } = this.state;
+    gostar(feedId).then((resultado) => {
       if (resultado.situacao === 'ok') {
-        console.log('aqui')
         this.carregarFeed();
         Toast.show("Obrigado pela sua avaliação", Toast.LONG);
       } else {
@@ -90,17 +86,15 @@ export default class Detalhes extends React.Component {
       }
     }).catch((erro) => {
       console.log("erro registrando like: " + erro);
-      console.log('erro aqui')
-
     })
   }
 
 
   dislike = () => {
-    const { feedId, usuario } = this.state;
-
-    desgostar(usuario, feedId).then((resultado) => {
-      if (resultado.situacao === "ok") {
+    const { feedId } = this.state;
+    this.carregarFeed()
+    desgostar(feedId).then((resultado) => {
+      if (resultado.situacao === 'ok') {
         this.carregarFeed();
       } else {
         Toast.show("Ocorreu um erro nessa operação", Toast.LONG);

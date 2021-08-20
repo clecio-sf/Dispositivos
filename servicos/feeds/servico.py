@@ -21,6 +21,11 @@ def get_conexao_bd():
     return conexao
 
 
+@servico.route("/isalive")
+def is_alive():
+    return jsonify(alive=IS_ALIVE)
+
+
 def gerar_feed(registro):
     feed = {
         "_id": registro["feed_id"],

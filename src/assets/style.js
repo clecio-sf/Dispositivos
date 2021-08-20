@@ -81,7 +81,18 @@ export const ContenedorNovoComentario = styled.View`
     background-color: #fffcf9;
 `;
 
+export const ContenedorMensagem = styled.View`
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: #eff2f1;
+`;
+
 export const styles = StyleSheet.create({
+    mensagem: {
+        color: '#457b9d',
+
+    },
     NomeProduto: {
         fontSize: 26,
         color: '#457b9d',

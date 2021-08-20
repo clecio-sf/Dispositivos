@@ -21,6 +21,11 @@ def get_conexao_bd():
     return conexao
 
 
+@servico.route("/isalive")
+def is_alive():
+    return jsonify(alive=IS_ALIVE)
+
+
 def gerar_categoria(registro):
     categoria = {
         "_id": registro["id"],

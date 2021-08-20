@@ -45,34 +45,37 @@ export const getCategorias = async () => {
   return acessarUrl(CATEGORIAS_URL + "categoria")
 }
 
-export const usuarioGostou = async (usuario, feedId) => {
+export const usuarioGostou = async (feedId) => {
   let promise = null;
+  const usuario = SyncStorage.get("user")
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "gostou/" + usuario.account + "/" + feedId);
+    promise = acessarUrl(LIKES_URL + "gostou/" + usuario.account + feedId);
   }
 
-  return promise;
+  return promise
 }
 
-export const gostar = async (usuario, feedId) => {
+export const gostar = async (feedId) => {
   let promise = null;
+  const usuario = SyncStorage.get('user')
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "gostar/" + usuario.account + "/" + feedId);
+    promise = acessarUrl(LIKES_URL + "gostar/" + usuario.account + feedId);
   }
 
-  return promise;
+  return promise
 }
 
-export const desgostar = async (usuario, feedId) => {
+export const desgostar = async (feedId) => {
   let promise = null;
+  const usuario = SyncStorage.get('user')
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "desgostar/" + usuario.account + "/" + feedId);
+    promise = acessarUrl(LIKES_URL + "desgostar/" + usuario.account + feedId);
   }
 
-  return promise;
+  return promise
 }
 
 export const getImagem = (imagem) => {
@@ -104,6 +107,22 @@ export const removerComentario = async (comentarioId) => {
 
   return promise;
 
+}
+
+export const feedAlive = async () => {
+  return acessarUrl(FEEDS_URL + "isalive")
+}
+
+export const comentariosAlive = async () => {
+  return acessarUrl(COMENTARIOS_URL + "isalive")
+}
+
+export const categoriasAlive = async () => {
+  return acessarUrl(CATEGORIAS_URL + "isalive")
+}
+
+export const likesAlive = async () => {
+  return acessarUrl(LIKES_URL + "isalive")
 }
 
 
