@@ -24,7 +24,7 @@ export default class Menu extends React.Component {
         categorias: maisCategorias
       });
     }).catch((erro) => {
-      console.error("ocorreu um erro criando menu de categorias: " + erro);
+      console.log("ocorreu um erro criando menu de categorias: " + erro);
     });
   }
   mostrarCategoria = (categoria) => {

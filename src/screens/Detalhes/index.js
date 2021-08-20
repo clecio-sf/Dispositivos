@@ -10,14 +10,12 @@ import {
   CentralizadoNaMesmaLinha, EsquerdaDaMesmaLinha
 } from '../../assets/style'
 import Icon from 'react-native-vector-icons/AntDesign'
-import slide1 from '../../assets/imgs/slide1.jpeg'
-import slide2 from '../../assets/imgs/slide2.jpeg'
-import slide3 from '../../assets/imgs/slide3.jpeg'
 import Compartilhador from '../../components/Compartilhador'
 import SyncStorage from 'sync-storage'
 import Toast from 'react-native-simple-toast'
+import { getFeed, getImagem, usuarioGostou, gostar, desgostar } from '../../api'
 
-
+const TOTAL_IMAGENS_SLIDE = 3
 export default class Detalhes extends React.Component {
   constructor(props) {
     super(props)
@@ -28,23 +26,45 @@ export default class Detalhes extends React.Component {
       gostou: false
     }
   }
+
+  verificarUsuarioGostou = () => {
+    const { feedId, usuario } = this.state;
+
+    usuarioGostou(usuario, feedId).then((resultado) => {
+      this.setState({ gostou: (resultado.likes > 0) });
+    }).catch((erro) => {
+      console.log("erro verificando se usuario gostou: " + erro);
+    });
+  }
+
   carregarFeed = () => {
-    const { feedId } = this.state
-    const feeds = feedsEstaticos.feeds
-    const feedsFiltrados = feeds.filter((feed) => feed._id === feedId)
-    if (feedsFiltrados.length) {
+    const { feedId } = this.state;
+
+    getFeed(feedId).then((feedAtualizado) => {
       this.setState({
-        feed: feedsFiltrados[0]
-      })
-    }
+        feed: feedAtualizado
+      }, () => {
+        this.verificarUsuarioGostou();
+      });
+    }).catch((erro) => {
+      console.error("erro atualizando o feed: " + erro);
+    });
   }
 
   componentDidMount = () => {
+
     this.carregarFeed()
   }
 
   mostrarSlides = () => {
-    const slides = [slide1, slide2, slide3]
+    const { feed } = this.state
+    let slides = []
+    for (let i = 0; i < TOTAL_IMAGENS_SLIDE; i++) {
+      if (feed.product.blobs[i].file) {
+        slides = [...slides, getImagem(feed.product.blobs[i].file)]
+      }
+    }
+
     return (
       <SliderBox
         dotColor={'#f1faee'}
@@ -58,30 +78,35 @@ export default class Detalhes extends React.Component {
   }
 
   like = () => {
-    const { feed } = this.state
-    const usuario = SyncStorage.get('user')
+    const { usuario, feedId } = this.state;
+    this.carregarFeed()
+    gostar(usuario, feedId).then((resultado) => {
+      if (resultado.situacao === 'ok') {
+        console.log('aqui')
+        this.carregarFeed();
+        Toast.show("Obrigado pela sua avaliação", Toast.LONG);
+      } else {
+        Toast.show("Ocorreu um erro nessa operação", Toast.LONG);
+      }
+    }).catch((erro) => {
+      console.log("erro registrando like: " + erro);
+      console.log('erro aqui')
 
-    console.log('adicionando o like do usuário: ' + usuario.name)
-    feed.likes++
-
-    this.setState({
-      feed: feed,
-      gostou: true
-    }, () => {
-      Toast.show('Obrigado pela sua avaliação!', Toast.LONG)
     })
   }
 
+
   dislike = () => {
-    const { feed } = this.state
-    const usuario = SyncStorage.get('user')
+    const { feedId, usuario } = this.state;
 
-    console.log('removendo o like do usuário: ' + usuario.name)
-    feed.likes--
-
-    this.setState({
-      feed: feed,
-      gostou: false
+    desgostar(usuario, feedId).then((resultado) => {
+      if (resultado.situacao === "ok") {
+        this.carregarFeed();
+      } else {
+        Toast.show("Ocorreu um erro nessa operação", Toast.LONG);
+      }
+    }).catch((erro) => {
+      console.log("erro registrando like: " + erro);
     })
   }
 

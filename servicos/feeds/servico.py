@@ -140,6 +140,30 @@ def get_feeds_por_categoria(categoria_id, pagina):
     return jsonify(feeds)
 
 
+@servico.route('/feed/<int:feed_id>')
+def get_feed(feed_id):
+    feed = {}
+
+    conexao = get_conexao_bd()
+    cursor = conexao.cursor(dictionary=True)
+    cursor.execute(
+        "select feeds.id as feed_id, DATE_FORMAT(feeds.data, '%Y-%m-%d T') as data," +
+        "categoria.id as categoria_id, categoria.nome as nome_categoria, " +
+        "produtos.nome as nome_produto, produtos.receita as receita, " +
+        "produtos.passos as passos_receita ," +
+        "produtos.imagem1, IFNULL(produtos.imagem2, '') as imagem2, IFNULL(produtos.imagem3, '') as imagem3 " +
+        "from feeds, produtos, categoria " +
+        "where produtos.id = feeds.produto " +
+        "and categoria.id = produtos.categoria " +
+        "and feeds.id = "+str(feed_id))
+    registro = cursor.fetchone()
+    if registro:
+        registro["likes"] = get_total_likes(registro["feed_id"])
+        feed = gerar_feed(registro)
+
+    return jsonify(feed)
+
+
 if __name__ == "__main__":
     servico.run(
         host='0.0.0.0',

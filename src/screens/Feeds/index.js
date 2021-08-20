@@ -61,19 +61,19 @@ export default class Feeds extends React.Component {
       getFeedsPorCategoria(empresaEscolhida._id, proximaPagina).then((maisFeeds) => {
         this.mostrarMaisFeeds(maisFeeds)
       }).catch((erro) => {
-        console.error('erro ao acessar categorias ' + erro)
+        console.log('erro ao acessar categorias ' + erro)
       })
     } else if (nomeProduto) {
       getFeedsPorProduto(nomeProduto, proximaPagina).then((maisFeeds) => {
         this.mostrarMaisFeeds(maisFeeds)
       }).catch((erro) => {
-        console.error('erro ao acessar feeds' + erro)
+        console.log('erro ao acessar feeds' + erro)
       })
     } else {
       getFeeds(proximaPagina).then((maisFeeds) => {
         this.mostrarMaisFeeds(maisFeeds)
       }).catch((erro) => {
-        console.error('erro ao acessar feeds' + erro)
+        console.log('erro ao acessar feeds' + erro)
       })
     }
   }

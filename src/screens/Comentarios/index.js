@@ -6,7 +6,7 @@ import Swipeable from 'react-native-swipeable-row'
 import SyncStorage from 'sync-storage'
 import Moment from 'react-moment'
 import 'moment-timezone'
-
+import { getComentarios, adicionarComentario, removerComentario } from '../../api'
 import {
   styles,
   CentralizadoNaMesmaLinha,
@@ -18,9 +18,8 @@ import {
   ContenedorNovoComentario,
   Espacador
 } from '../../assets/style'
-import comentariosEstaticos from '../../assets/dicionarios/comentarios.json'
+import Toast from 'react-native-simple-toast'
 
-const COMENTARIOS_POR_PAGINA = 5
 const TAMANHO_MAXIMO_COMENTARIO = 100
 
 export default class Comentarios extends React.Component {
@@ -34,42 +33,42 @@ export default class Comentarios extends React.Component {
       empresa: this.props.navigation.state.params.empresa,
 
       comentarios: [],
-      proximaPagina: 0,
+      proximaPagina: 1,
       textoNovoComentario: '',
 
       carregando: false,
       atualizando: false,
-      telaAdicaoVisivel: false
+      telaAdicaoVisivel: false,
+      usuario: null
+
     }
   }
 
   carregarComentarios = () => {
-    const { feedId, comentarios, proximaPagina } = this.state
+    const { feedId, comentarios, proximaPagina } = this.state;
 
     this.setState({
       carregando: true
+    });
+
+    getComentarios(feedId, proximaPagina).then((maisComentarios) => {
+      if (maisComentarios.length) {
+        this.setState({
+          proximaPagina: proximaPagina + 1,
+          comentarios: [...comentarios, ...maisComentarios],
+
+          atualizando: false,
+          carregando: false
+        });
+      } else {
+        this.setState({
+          atualizando: false,
+          carregando: false
+        })
+      }
+    }).catch((erro) => {
+      console.error("erro exibindo comentarios: " + erro);
     })
-
-    const idInicial = proximaPagina * COMENTARIOS_POR_PAGINA + 1
-    const idFinal = idInicial + COMENTARIOS_POR_PAGINA - 1
-
-    const maisComentarios = comentariosEstaticos.comentarios.filter(
-      (comentario) => comentario._id >= idInicial &&
-        comentario._id <= idFinal && comentario.feed === feedId)
-
-    if (maisComentarios.length) {
-      this.setState({
-        proximaPagina: proximaPagina + 1,
-        comentarios: [...comentarios, ...maisComentarios],
-        atualizando: false,
-        carregando: false
-      })
-    } else {
-      this.setState({
-        atualizando: false,
-        carregando: false
-      })
-    }
   }
 
   componentDidMount = () => {
@@ -86,17 +85,19 @@ export default class Comentarios extends React.Component {
   }
 
   removerComentario = (comentarioParaRemover) => {
-    const { comentarios } = this.state
 
-    const comentariosFiltrados = comentarios.filter((comentario) => {
-      comentario._id !== comentarioParaRemover._id
-    })
-
-    this.setState({
-      comentarios: comentariosFiltrados
-    }, () => {
-      this.atualizar()
-    })
+    removerComentario(comentarioParaRemover._id).then((resultado) => {
+      if (resultado.situacao == 'ok') {
+        this.setState({
+          proximaPagina: 1,
+          comentarios: []
+        }, () => {
+          this.carregarComentarios()
+        })
+      }
+    }).catch((erro => {
+      console.log('erro ao excluir o comentario ' + erro)
+    }))
   }
 
   confirmarRemocao = (comentario) => {
@@ -162,7 +163,7 @@ export default class Comentarios extends React.Component {
 
   atualizar = () => {
     this.setState({
-      atualizando: true, carregando: false, proximaPagina: 0,
+      atualizando: true, carregando: false, proximaPagina: 1,
       comentarios: []
     }, () => {
       this.carregarComentarios()
@@ -170,27 +171,22 @@ export default class Comentarios extends React.Component {
   }
 
   adicionarComentario = () => {
-    const { feedId, comentarios, textoNovoComentario } = this.state
-    const usuario = SyncStorage.get('user')
+    const { feedId, textoNovoComentario } = this.state;
 
-    const comentario = [
-      {
-        '_id': comentarios.length + 100,
-        'feed': feedId,
-        'user': {
-          'userId': 2,
-          'email': usuario.email,
-          'name': usuario.name
-        },
-        'datetime': '2020-03-26T12:00-0500',
-        'content': textoNovoComentario
+    adicionarComentario(feedId, textoNovoComentario).then(
+      (resultado) => {
+        if (resultado.situacao == "ok") {
+          this.setState({
+            proximaPagina: 1,
+            comentarios: []
+          }, () => {
+            this.carregarComentarios();
+          })
+        }
       }
-    ]
-
-    this.setState({
-      comentarios: [...comentario, ...comentarios]
+    ).catch((erro) => {
+      console.error("erro adicionando comentario: " + erro);
     })
-
     this.mudarVisibilidadeTelaAdicao()
   }
 

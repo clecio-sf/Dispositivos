@@ -31,7 +31,7 @@ services:
     links:
       - 'bancodados:bd'
     volumes:
-      - './categorias:/servico'
+      - './comentarios:/servico'
     command: python3 servico.py
   likes:
     image: receitas
@@ -42,7 +42,7 @@ services:
     links:
       - 'bancodados:bd'
     volumes:
-      - './categorias:/servico'
+      - './likes:/servico'
     command: python3 servico.py
   bancodados:
     image: mysql

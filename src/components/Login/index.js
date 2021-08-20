@@ -118,7 +118,7 @@ export class Login extends React.Component {
             }
         }).catch((error) => {
             if (error !== ERRORS.NO_SIGNED_USER) {
-                console.error(error)
+                console.log(error)
             }
         })
     }
@@ -129,7 +129,7 @@ export class Login extends React.Component {
         SignIn(signer).then(() => {
             this.getSignedUser()
         }).catch((error) => {
-            console.error('Erro de autenticação: ' + error)
+            console.log('Erro de autenticação: ' + error)
         })
     }
 
@@ -208,7 +208,7 @@ export class Logout extends React.Component {
                 onLogout(signer)
             }
         }).catch((error) => {
-            console.error('Erro de autenticação. Error: ' + error)
+            console.log('Erro de autenticação. Error: ' + error)
         })
     }
 
