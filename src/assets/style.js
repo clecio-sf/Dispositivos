@@ -91,7 +91,6 @@ export const ContenedorMensagem = styled.View`
 export const styles = StyleSheet.create({
     mensagem: {
         color: '#457b9d',
-
     },
     NomeProduto: {
         fontSize: 26,

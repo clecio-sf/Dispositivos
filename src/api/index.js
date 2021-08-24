@@ -50,7 +50,7 @@ export const usuarioGostou = async (feedId) => {
   const usuario = SyncStorage.get("user")
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "gostou/" + usuario.account + feedId);
+    promise = acessarUrl(LIKES_URL + "gostou/" + usuario.account + "/" + feedId);
   }
 
   return promise
@@ -61,7 +61,7 @@ export const gostar = async (feedId) => {
   const usuario = SyncStorage.get('user')
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "gostar/" + usuario.account + feedId);
+    promise = acessarUrl(LIKES_URL + "gostar/" + usuario.account + "/" + feedId);
   }
 
   return promise
@@ -72,7 +72,7 @@ export const desgostar = async (feedId) => {
   const usuario = SyncStorage.get('user')
 
   if (usuario) {
-    promise = acessarUrl(LIKES_URL + "desgostar/" + usuario.account + feedId);
+    promise = acessarUrl(LIKES_URL + "desgostar/" + usuario.account + "/" + feedId);
   }
 
   return promise
